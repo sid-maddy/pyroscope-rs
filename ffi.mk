@@ -1,4 +1,3 @@
-
 MANYLINUX_PREFIX=pyroscope/rust_builder
 MANYLINUX_VERSION=4
 BUILD_ARCH_AMD=manylinux2014_x86_64
@@ -10,14 +9,24 @@ pyroscope_ffi/clean:
 	make -C pyroscope_ffi/ruby/ clean
 
 
-.phony: wheel/linux/amd64
-wheel/linux/amd64: pyroscope_ffi/clean
+.phony: wheel/manylinux/amd64
+wheel/manylinux/amd64: pyroscope_ffi/clean
 	docker buildx build \
-		--build-arg=PLATFORM=x86_64 \
-	 	--platform=linux/amd64 \
-	 	--output=pyroscope_ffi/python \
-	 	-f docker/wheel.Dockerfile \
-	 	.
+	  --build-arg=PLATFORM=x86_64 \
+	  --platform=linux/amd64 \
+	  --output=pyroscope_ffi/python \
+	  -f docker/wheel.Dockerfile \
+	  .
+
+.phony: wheel/musllinux/amd64
+wheel/musllinux/amd64: pyroscope_ffi/clean
+	docker buildx build \
+	  --build-arg=BASE=musllinux_1_2 \
+	  --build-arg=PLATFORM=x86_64 \
+	  --platform=linux/amd64 \
+	  --output=pyroscope_ffi/python \
+	  -f docker/wheel.Dockerfile \
+	  .
 
 .phony: wheel/linux/arm64
 wheel/linux/arm64: pyroscope_ffi/clean

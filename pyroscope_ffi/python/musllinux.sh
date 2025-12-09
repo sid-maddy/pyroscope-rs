@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 
-yum -y install gcc libffi-devel openssl-devel wget gcc-c++ glibc-devel make
+apk add --no-cache gcc libffi-dev openssl-dev wget g++ libc-dev make cargo
 cargo --version
 
 # Build wheels
